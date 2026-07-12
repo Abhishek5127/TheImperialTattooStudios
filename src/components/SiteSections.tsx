@@ -69,6 +69,7 @@ const artists = [
     specialty: "Lead Artist specializing in custom blackwork, fine-line, and hyper-realism.",
     imagePosition: "center",
     src: "/primary_artist.png",
+    instagram: "https://www.instagram.com/parth_tattooist_02?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==",
   },
 ];
 
@@ -102,18 +103,25 @@ function getArcStyle(index: number, total: number): React.CSSProperties {
 
 const mapsUrl = "https://maps.app.goo.gl/eJGzCSxTiJ8sv57E7";
 const mapEmbedUrl = "https://www.google.com/maps?q=The+Imperial+Tattoo+Studio+Ahmedabad&output=embed";
+const bookingUrl = "https://wa.me/919265209572?text=Hello!%20I'd%20like%20to%20book%20an%20appointment%20at%20The%20Imperial%20Tattoo%20Studio.";
 
 function CTA({
   children,
-  href = "#contact",
+  href = bookingUrl,
   variant = "solid",
 }: {
   children: React.ReactNode;
   href?: string;
   variant?: "solid" | "outline" | "dark";
 }) {
+  const isExternal = href.startsWith("http");
   return (
-    <Link className={`stroke-link ${variant}`} href={href}>
+    <Link
+      className={`stroke-link ${variant}`}
+      href={href}
+      target={isExternal ? "_blank" : undefined}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+    >
       {children}
     </Link>
   );
@@ -162,7 +170,16 @@ export function Header() {
   return (
     <header className="fixed inset-x-0 top-0 z-50 border-b border-white/5 bg-ink-black/80 text-paper-white backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-6 py-4 lg:px-8">
-        <Link href="#home" className="group flex items-center focus-ring">
+        <Link href="#home" className="group flex items-center gap-3 focus-ring">
+          <div className="relative size-8 overflow-hidden rounded-full border border-white/25 grayscale">
+            <Image
+              src="/logo/imperial_logo.jpg"
+              alt="The Imperial Tattoo Studio logo"
+              fill
+              sizes="32px"
+              className="object-cover"
+            />
+          </div>
           <span className="font-serif text-sm sm:text-base md:text-lg tracking-[0.12em] sm:tracking-[0.18em] uppercase text-[#f0eee8] transition-colors duration-300 hover:text-white">
             The Imperial Tattoo Studio
           </span>
@@ -180,7 +197,9 @@ export function Header() {
         </nav>
         <div className="flex items-center">
           <Link
-            href="#contact"
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="border border-white/20 hover:border-white text-paper-white text-[0.7rem] font-medium tracking-[0.14em] uppercase rounded-full px-5 py-2.5 transition-all duration-300 hover:bg-white/5 focus-ring"
           >
             Book Appointment
@@ -236,7 +255,9 @@ export function Hero() {
         {/* Buttons overlaying the bottom center of the arc */}
         <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 gap-4 w-max max-w-[calc(100vw-2rem)] px-4">
           <Link
-            href="#contact"
+            href={bookingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             className="bg-[#e4e4e2] hover:bg-white text-black text-xs font-semibold tracking-[0.14em] uppercase rounded-full px-6 py-3.5 transition-colors duration-300 shadow-xl focus-ring whitespace-nowrap"
           >
             Book an Appointment
@@ -424,14 +445,21 @@ export function Artists() {
                     className="aspect-[4/5]"
                   />
                   <div className="mt-5">
-                    <h3 className="font-display text-4xl uppercase leading-none">
-                      {artist.name}
-                    </h3>
+                    <a
+                      href={artist.instagram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:text-signal-teal transition-colors duration-300 focus-ring inline-block"
+                    >
+                      <h3 className="font-display text-4xl uppercase leading-none">
+                        {artist.name}
+                      </h3>
+                    </a>
                     <p className="mt-3 min-h-12 text-sm leading-6 text-steel-grey">
                       {artist.specialty}
                     </p>
                     <div className="mt-5 flex gap-3">
-                      <CTA href="#contact" variant="dark">Book</CTA>
+                      <CTA variant="dark">Book</CTA>
                       <a className="inline-link focus-ring" href="#gallery">
                         Work
                       </a>
@@ -546,6 +574,29 @@ export function Footer() {
           <p className="mt-4 max-w-sm text-sm leading-6 text-mist">
             {studio.category} · {studio.rating} ★ · {studio.reviews}
           </p>
+          <div className="mt-6">
+            <a
+              href="https://www.instagram.com/parth_tattooist_02?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-sm text-mist hover:text-paper-white transition-colors duration-300 focus-ring"
+              aria-label="Instagram Profile"
+            >
+              <svg
+                className="size-5"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M12.315 2c2.43 0 2.784.01 3.71.054 1.14.051 1.96.23 2.673.506.759.296 1.41.697 2.057 1.344.647.647 1.048 1.298 1.344 2.057.276.714.455 1.533.506 2.673.043.926.052 1.282.052 3.71 0 2.43-.009 2.784-.052 3.71-.051 1.14-.23 1.96-.506 2.673a5.579 5.579 0 01-1.344 2.057 5.58 5.58 0 01-2.057 1.344c-.714.276-1.533.455-2.673.506-.926.043-1.282.052-3.71.052-2.43 0-2.784-.009-3.71-.052-1.14-.051-1.96-.23-2.673-.506a5.579 5.579 0 01-2.057-1.344 5.579 5.579 0 01-1.344-2.057c-.276-.714-.455-1.533-.506-2.673-.043-.926-.052-1.282-.052-3.71 0-2.43.009-2.784.052-3.71.051-1.14.23-1.96.506-2.673a5.584 5.584 0 011.344-2.057 5.583 5.583 0 012.057-1.344c.714-.276 1.533-.455 2.673-.506.926-.043 1.282-.054 3.71-.054zm0 2.232c-2.388 0-2.671.009-3.613.053-.872.04-1.346.186-1.66.309a3.35 3.35 0 00-1.218.793 3.35 3.35 0 00-.793 1.218c-.123.314-.268.788-.309 1.66-.043.942-.052 1.226-.052 3.613s.009 2.671.052 3.613c.04.872.186 1.346.309 1.66.222.573.535 1.04.99 1.496.455.455.922.77 1.495.99.314.123.788.268 1.66.309.942.043 1.226.052 3.613.052s2.671-.009 3.613-.052c.872-.04 1.346-.186 1.66-.309a3.352 3.352 0 001.218-.793 3.35 3.35 0 00.793-1.218c.123-.314.268-.788.309-1.66.043-.942.052-1.226.052-3.613s-.009-2.671-.052-3.613c-.04-.872-.186-1.346-.309-1.66a3.35 3.35 0 00-.793-1.218 3.35 3.35 0 00-1.218-.793c-.314-.123-.788-.268-1.66-.309-.942-.044-1.226-.053-3.613-.053zm0 2.678a5.09 5.09 0 100 10.18 5.09 5.09 0 000-10.18zm0 7.948a2.858 2.858 0 110-5.717 2.858 2.858 0 010 5.717zm6.037-6.978a1.22 1.22 0 100-2.44 1.22 1.22 0 000 2.44z"
+                  clipRule="evenodd"
+                />
+              </svg>
+              <span>Follow us on Instagram</span>
+            </a>
+          </div>
         </div>
         <nav aria-label="Footer navigation" className="grid grid-cols-2 gap-3 text-sm">
           {navItems.map((item) => (
