@@ -65,22 +65,10 @@ const gallery = [
 
 const artists = [
   {
-    name: "Aarav Shah",
-    specialty: "Blackwork and sacred geometry",
+    name: "Abhishek Choudhary",
+    specialty: "Lead Artist specializing in custom blackwork, fine-line, and hyper-realism.",
     imagePosition: "center",
-    src: "/artist_aarav.png",
-  },
-  {
-    name: "Meera Patel",
-    specialty: "Fine line florals and script",
-    imagePosition: "center",
-    src: "/artist_meera.png",
-  },
-  {
-    name: "Kabir Desai",
-    specialty: "Realism, portraits, and sleeves",
-    imagePosition: "center",
-    src: "/artist_kabir.png",
+    src: "/primary_artist.png",
   },
 ];
 
@@ -425,7 +413,7 @@ export function Artists() {
             <p className="eyebrow">Artists</p>
             <h2 className="section-title">Choose the hand that fits the story.</h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
+          <div className="mt-10 max-w-sm">
             {artists.map((artist) => (
               <Reveal key={artist.name}>
                 <article className="artist-card">
