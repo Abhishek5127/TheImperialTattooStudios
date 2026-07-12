@@ -65,7 +65,7 @@ const gallery = [
 
 const artists = [
   {
-    name: "Abhishek Choudhary",
+    name: "parth_tattooist_02",
     specialty: "Lead Artist specializing in custom blackwork, fine-line, and hyper-realism.",
     imagePosition: "center",
     src: "/primary_artist.png",
