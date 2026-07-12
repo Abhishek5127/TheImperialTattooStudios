@@ -10,7 +10,7 @@ const studio = {
   address:
     "D-15 Indravihar Park, Near Navrang High School, K P, Hights Road, Ambika Nagar, Odhav, Ahmedabad, Gujarat 382415",
   hours: "Open · Closes 11 PM",
-  phone: "092652 09572",
+  phone: "+91 92652 09572",
   plusCode: "2MJ5+FR Ahmedabad, Gujarat",
 };
 
