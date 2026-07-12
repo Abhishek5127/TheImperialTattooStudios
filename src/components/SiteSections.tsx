@@ -135,6 +135,8 @@ function CTA({
   );
 }
 
+//this is demo
+
 function FramedImage({
   alt,
   position,
@@ -306,7 +308,7 @@ export function Gallery() {
         <Reveal className="flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="eyebrow">Our gallery</p>
-            <h2 className="section-title text-paper-white">Linework that holds the room.</h2>
+            <h2 className="section-title text-paper-white">Linework Tattoos that holds the room.</h2>
           </div>
           <div className="flex flex-wrap gap-2">
             {["Blackwork", "Traditional", "Fine Line", "Realism"].map((tag) => (
