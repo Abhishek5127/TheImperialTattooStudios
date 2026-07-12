@@ -25,7 +25,7 @@ export function Reveal({ children, className = "" }: RevealProps) {
           observer.unobserve(node);
         }
       },
-      { threshold: 0.18 },
+      { threshold: 0.05 },
     );
 
     observer.observe(node);

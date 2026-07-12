@@ -49,17 +49,17 @@ const gallery = [
     title: "Full back mythology",
     tag: "Custom",
     className: "md:col-span-5",
-    src: "/tattoo-theme.webp",
+    src: "/tattoodesigns/mythology_back.png",
     type: "image",
-    position: "33% 71%",
+    position: "center",
   },
   {
     title: "Geometric sleeve",
     tag: "Cover-up",
     className: "md:col-span-4",
-    src: "/tattoo-theme.webp",
+    src: "/tattoodesigns/geometric_sleeve.png",
     type: "image",
-    position: "83% 55%",
+    position: "center",
   },
 ];
 
@@ -67,17 +67,20 @@ const artists = [
   {
     name: "Aarav Shah",
     specialty: "Blackwork and sacred geometry",
-    imagePosition: "83% 55%",
+    imagePosition: "center",
+    src: "/artist_aarav.png",
   },
   {
     name: "Meera Patel",
     specialty: "Fine line florals and script",
-    imagePosition: "20% 12%",
+    imagePosition: "center",
+    src: "/artist_meera.png",
   },
   {
     name: "Kabir Desai",
     specialty: "Realism, portraits, and sleeves",
-    imagePosition: "51% 12%",
+    imagePosition: "center",
+    src: "/artist_kabir.png",
   },
 ];
 
@@ -93,25 +96,18 @@ const heroCards = [
 
 /**
  * Compute arc transform for each card.
- * Gentle convex arc matching the reference — center card is highest,
- * outer cards tilt outward and shift downward.
+ * Gentle convex arc matching the reference — center card is highest.
+ * Calculations are offloaded to CSS variables for responsive queries.
  */
 function getArcStyle(index: number, total: number): React.CSSProperties {
   const mid = (total - 1) / 2;
   const offset = index - mid; // -3 ... 0 ... +3
-  const maxRotate = 16; // gentle tilt (negative on left, positive on right)
-  const maxTz = -50; // subtle depth push
-  const maxTy = 85; // outer cards shift downwards (convex)
-
-  const rotate = (offset / mid) * maxRotate;
   const absNorm = Math.abs(offset) / mid;
-  const tz = absNorm * absNorm * maxTz;
-  const ty = absNorm * absNorm * maxTy;
 
   return {
-    "--arc-rotate": `${rotate}deg`,
-    "--arc-tz": `${tz}px`,
-    "--arc-ty": `${ty}px`,
+    "--arc-index": index,
+    "--arc-offset": offset,
+    "--arc-abs-norm": absNorm,
     zIndex: total - Math.abs(offset) * 2,
   } as React.CSSProperties;
 }
@@ -142,16 +138,18 @@ function FramedImage({
   position,
   className = "",
   priority = false,
+  src = "/tattoo-theme.webp",
 }: {
   alt: string;
   position: string;
   className?: string;
   priority?: boolean;
+  src?: string;
 }) {
   return (
     <div className={`photo-frame ${className}`}>
       <Image
-        src="/tattoo-theme.webp"
+        src={src}
         alt={alt}
         fill
         priority={priority}
@@ -166,6 +164,7 @@ function FramedImage({
 export function Header() {
   const headerLinks = [
     { label: "About", href: "#about" },
+    { label: "Services", href: "#services" },
     { label: "Gallery", href: "#gallery" },
     { label: "Artists", href: "#artists" },
     { label: "Designs", href: "#designs" },
@@ -213,7 +212,7 @@ export function Hero() {
       {/* --- Text content --- */}
       <div className="relative z-10 mx-auto flex flex-1 max-w-5xl flex-col items-center justify-center px-4 pt-28 text-center sm:px-6 lg:px-8">
         <div className="mx-auto max-w-5xl">
-          <h1 className="hero-serif mx-auto max-w-5xl text-[clamp(3.4rem,8.2vw,7.8rem)] leading-[0.92] tracking-normal text-[#f0eee8]">
+          <h1 className="hero-serif mx-auto max-w-5xl text-[clamp(2.2rem,8.2vw,7.8rem)] leading-[0.92] tracking-normal text-[#f0eee8]">
             The Kind of Tattoo
             <br className="hidden sm:inline" />{" "}
             You Won&apos;t Regret.
@@ -274,7 +273,8 @@ export function About() {
         <Reveal>
           <FramedImage
             alt="Monochrome tattooed portrait from the studio mood board"
-            position="22% 30%"
+            position="center"
+            src="/about_studio.png"
             className="min-h-[34rem]"
             priority
           />
@@ -295,6 +295,60 @@ export function About() {
             </p>
           </div>
         </Reveal>
+      </div>
+    </section>
+  );
+}
+
+export function Services() {
+  const services = [
+    {
+      title: "Permanent Tattoo",
+      description: "Custom illustrative, blackwork, fine-line, and hyper-realistic body art tailored to your personal narrative.",
+      icon: "✒️",
+    },
+    {
+      title: "Microblading",
+      description: "Semi-permanent cosmetic tattooing simulating natural eyebrow hairs for a fuller, precisely defined shape.",
+      icon: "✍️",
+    },
+    {
+      title: "Permanent Makeup",
+      description: "Premium cosmetic tattooing for lips (blush) and eyeliner to enhance your daily features permanently.",
+      icon: "✨",
+    },
+    {
+      title: "Body Piercing",
+      description: "Safe, clean, and professional body piercings utilizing premium titanium and implant-grade jewelry.",
+      icon: "💎",
+    },
+  ];
+
+  return (
+    <section id="services" className="section ink relative overflow-hidden">
+      <span className="ghost-word left-[-8vw] top-12 text-white/5">CRAFT</span>
+      <div className="section-inner">
+        <Reveal className="max-w-3xl">
+          <p className="eyebrow">Services</p>
+          <h2 className="section-title text-paper-white">Artistry Beyond Boundaries.</h2>
+        </Reveal>
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {services.map((service) => (
+            <Reveal key={service.title}>
+              <div className="border border-white/10 bg-white/5 p-8 hover:border-signal-teal/50 hover:bg-white/[0.08] transition-all duration-300 group flex flex-col h-full justify-between">
+                <div>
+                  <span className="text-4xl block mb-6">{service.icon}</span>
+                  <h3 className="font-display text-2xl uppercase tracking-wider text-paper-white group-hover:text-signal-teal transition-colors duration-300">
+                    {service.title}
+                  </h3>
+                  <p className="mt-4 text-sm leading-6 text-paper-white/50">
+                    {service.description}
+                  </p>
+                </div>
+              </div>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -378,6 +432,7 @@ export function Artists() {
                   <FramedImage
                     alt={`${artist.name}, tattoo artist portrait`}
                     position={artist.imagePosition}
+                    src={artist.src}
                     className="aspect-[4/5]"
                   />
                   <div className="mt-5">

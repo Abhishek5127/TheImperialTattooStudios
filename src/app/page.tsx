@@ -1,5 +1,6 @@
 import {
   About,
+  Services,
   Artists,
   DesignsAndStats,
   FinalCta,
@@ -17,6 +18,7 @@ export default function Home() {
       <main>
         <Hero />
         <About />
+        <Services />
         <Gallery />
         <Artists />
         <DesignsAndStats />

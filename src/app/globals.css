@@ -112,10 +112,17 @@ body {
     0 16px 48px rgba(0, 0, 0, 0.65),
     0 4px 14px rgba(0, 0, 0, 0.45),
     inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  
+  /* Arc custom values */
+  --max-rotate: 16deg;
+  --max-ty: 85px;
+  --max-tz: -50px;
+
   transform:
-    translateY(var(--arc-ty, 0px))
-    translateZ(var(--arc-tz, 0px))
-    rotate(var(--arc-rotate, 0deg));
+    translateY(calc(var(--arc-abs-norm) * var(--arc-abs-norm) * var(--max-ty)))
+    translateZ(calc(var(--arc-abs-norm) * var(--arc-abs-norm) * var(--max-tz)))
+    rotate(calc((var(--arc-offset) / 3) * var(--max-rotate)));
+
   transform-style: preserve-3d;
   transition: transform 550ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 550ms cubic-bezier(0.16, 1, 0.3, 1), border-color 550ms ease;
   pointer-events: auto;
@@ -124,9 +131,9 @@ body {
 
 .hero-card:hover {
   transform:
-    translateY(calc(var(--arc-ty, 0px) - 24px))
-    translateZ(calc(var(--arc-tz, 0px) + 60px))
-    rotate(var(--arc-rotate, 0deg));
+    translateY(calc((var(--arc-abs-norm) * var(--arc-abs-norm) * var(--max-ty)) - 24px))
+    translateZ(calc((var(--arc-abs-norm) * var(--arc-abs-norm) * var(--max-tz)) + 60px))
+    rotate(calc((var(--arc-offset) / 3) * var(--max-rotate)));
   box-shadow:
     0 24px 64px rgba(0, 0, 0, 0.75),
     0 8px 24px rgba(0, 0, 0, 0.55);
@@ -389,7 +396,7 @@ footer .inline-link {
   }
 
   .section-title {
-    font-size: clamp(3.7rem, 18vw, 6rem);
+    font-size: clamp(2.4rem, 12vw, 4.5rem);
   }
 
   .hero-card-arc {
@@ -402,6 +409,9 @@ footer .inline-link {
   .hero-card {
     width: clamp(5.2rem, 18vw, 7.8rem);
     border-radius: 0.8rem;
+    --max-rotate: 11deg;
+    --max-ty: 30px;
+    --max-tz: -20px;
   }
 
   .vertical-label {
