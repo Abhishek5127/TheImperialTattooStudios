@@ -253,18 +253,18 @@ export function Hero() {
         <div className="hero-arc-glow" />
 
         {/* Buttons overlaying the bottom center of the arc */}
-        <div className="absolute bottom-6 left-1/2 z-30 flex -translate-x-1/2 gap-4 w-max max-w-[calc(100vw-2rem)] px-4">
+        <div className="absolute bottom-6 left-1/2 z-30 flex flex-col sm:flex-row -translate-x-1/2 gap-3 w-max max-w-[calc(100vw-2rem)] px-4">
           <Link
             href={bookingUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#e4e4e2] hover:bg-white text-black text-xs font-semibold tracking-[0.14em] uppercase rounded-full px-6 py-3.5 transition-colors duration-300 shadow-xl focus-ring whitespace-nowrap"
+            className="bg-[#e4e4e2] hover:bg-white text-black text-xs font-semibold tracking-[0.14em] uppercase rounded-full px-6 py-3.5 transition-colors duration-300 shadow-xl focus-ring whitespace-nowrap text-center"
           >
             Book an Appointment
           </Link>
           <Link
             href="#gallery"
-            className="border border-white/20 hover:border-white text-white hover:bg-white/5 text-xs font-semibold tracking-[0.14em] uppercase rounded-full px-6 py-3.5 transition-colors duration-300 focus-ring whitespace-nowrap"
+            className="border border-white/20 hover:border-white text-white hover:bg-white/5 text-xs font-semibold tracking-[0.14em] uppercase rounded-full px-6 py-3.5 transition-colors duration-300 focus-ring whitespace-nowrap text-center"
           >
             View The Flash Book
           </Link>
