@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "./Reveal";
@@ -7,12 +10,33 @@ const studio = {
   category: "Tattoo shop",
   rating: "4.9",
   reviews: "386 reviews",
-  address:
-    "D-15 Indravihar Park, Near Navrang High School, K P, Hights Road, Ambika Nagar, Odhav, Ahmedabad, Gujarat 382415",
-  hours: "Open · Closes 11 PM",
-  phone: "+91 92652 09572",
-  plusCode: "2MJ5+FR Ahmedabad, Gujarat",
 };
+
+const branches = [
+  {
+    id: "ahmedabad",
+    name: "Ahmedabad Branch",
+    address:
+      "D-15 Indravihar Park, Near Navrang High School, K P, Hights Road, Ambika Nagar, Odhav, Ahmedabad, Gujarat 382415",
+    hours: "Open · Closes 11 PM",
+    phone: "+91 92652 09572",
+    plusCode: "2MJ5+FR Ahmedabad, Gujarat",
+    mapsUrl: "https://maps.app.goo.gl/Ch2Lj4STzE6ZdNCJ8?g_st=ic",
+    mapEmbedUrl: "https://www.google.com/maps?q=The+Imperial+Tattoo+Studio+Ahmedabad&output=embed",
+    bookingUrl: "https://wa.me/919265209572?text=Hello!%20I'd%20like%20to%20book%20an%20appointment%20at%20the%20Ahmedabad%20branch%20of%20The%20Imperial%20Tattoo%20Studio.",
+  },
+  {
+    id: "gandhinagar",
+    name: "Gandhinagar Branch",
+    address: "Swagat Rainforest 1, Kudasan, Gandhinagar, Gujarat 382419",
+    hours: "Open · Closes 11 PM",
+    phone: "+91 92652 09572",
+    plusCode: "5JGP+XQ Gandhinagar, Gujarat",
+    mapsUrl: "https://maps.app.goo.gl/Dbym4PEHtahE32i9A?g_st=ic",
+    mapEmbedUrl: "https://www.google.com/maps?q=The+Imperial+Tattoo+Studio+Gandhinagar&output=embed",
+    bookingUrl: "https://wa.me/919265209572?text=Hello!%20I'd%20like%20to%20book%20an%20appointment%20at%20the%20Gandhinagar%20branch%20of%20The%20Imperial%20Tattoo%20Studio.",
+  },
+];
 
 const navItems = ["Home", "About", "Artists", "Gallery", "Designs", "Contact"];
 
@@ -480,10 +504,10 @@ export function DesignsAndStats() {
     <section id="designs" className="bg-ink-black text-paper-white">
       <div className="section-inner grid gap-1 py-0 md:grid-cols-4">
         {[
-          ["4.9", "studio rating"],
-          ["386", "client reviews"],
+          ["4.9★", "average rating"],
+          ["440+", "client reviews"],
           ["Custom", "design first"],
-          ["Odhav", "Ahmedabad studio"],
+          ["2", "studios in gujarat"],
         ].map(([value, label]) => (
           <Reveal key={label}>
             <div className="border-x border-mist/10 px-6 py-10">
@@ -498,6 +522,8 @@ export function DesignsAndStats() {
 }
 
 export function VisitStudio() {
+  const [activeBranch, setActiveBranch] = useState(branches[0]);
+
   return (
     <section id="contact" className="section paper relative overflow-hidden">
       <span className="ghost-word bottom-4 right-[-8vw]">VISIT</span>
@@ -505,37 +531,57 @@ export function VisitStudio() {
         <Reveal className="relative z-10">
           <p className="eyebrow">Visit the studio</p>
           <h2 className="section-title">Walk in with an idea. Leave with a mark.</h2>
+
+          {/* Branch Switcher Buttons */}
+          <div className="mt-8 inline-flex rounded-full bg-ink-black/5 p-1">
+            {branches.map((branch) => (
+              <button
+                key={branch.id}
+                onClick={() => setActiveBranch(branch)}
+                className={`rounded-full px-5 py-2 text-xs font-bold tracking-widest uppercase transition-all duration-300 focus-ring cursor-pointer ${
+                  activeBranch.id === branch.id
+                    ? "bg-signal-teal text-paper-white shadow-sm"
+                    : "text-steel-grey hover:text-ink-black"
+                }`}
+              >
+                {branch.name}
+              </button>
+            ))}
+          </div>
+
           <dl className="mt-8 space-y-5 text-base leading-7">
             <div>
               <dt className="detail-label">Address</dt>
-              <dd className="text-steel-grey">{studio.address}</dd>
+              <dd className="text-steel-grey">{activeBranch.address}</dd>
             </div>
             <div>
               <dt className="detail-label">Hours</dt>
-              <dd className="text-steel-grey">{studio.hours}</dd>
+              <dd className="text-steel-grey">{activeBranch.hours}</dd>
             </div>
             <div>
               <dt className="detail-label">Phone</dt>
               <dd>
-                <a className="inline-link focus-ring" href={`tel:${studio.phone}`}>
-                  {studio.phone}
+                <a className="inline-link focus-ring" href={`tel:${activeBranch.phone}`}>
+                  {activeBranch.phone}
                 </a>
               </dd>
             </div>
             <div>
               <dt className="detail-label">Google Plus Code</dt>
-              <dd className="text-steel-grey">{studio.plusCode}</dd>
+              <dd className="text-steel-grey">{activeBranch.plusCode}</dd>
             </div>
           </dl>
           <div className="mt-8">
-            <CTA href={mapsUrl} variant="dark">Get Directions</CTA>
+            <CTA href={activeBranch.mapsUrl} variant="dark">
+              Get Directions
+            </CTA>
           </div>
         </Reveal>
         <Reveal>
           <div className="map-shell">
             <iframe
-              title="Map showing The Imperial Tattoo Studio in Ahmedabad"
-              src={mapEmbedUrl}
+              title={`Map showing The Imperial Tattoo Studio ${activeBranch.name}`}
+              src={activeBranch.mapEmbedUrl}
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="size-full border-0"
@@ -570,9 +616,9 @@ export function Footer() {
     <footer className="bg-ink-black text-paper-white">
       <div className="mx-auto grid max-w-7xl gap-10 border-t border-mist/15 px-4 py-12 sm:px-6 md:grid-cols-[1fr_1fr_1.2fr] lg:px-8">
         <div>
-          <div className="font-display text-4xl uppercase leading-none">The Imperial Tattoo Studio</div>
+          <div className="font-display text-4xl uppercase leading-none">{studio.name}</div>
           <p className="mt-4 max-w-sm text-sm leading-6 text-mist">
-            {studio.category} · {studio.rating} ★ · {studio.reviews}
+            {studio.category} · Ahmedabad (4.9 ★) · Gandhinagar (5.0 ★)
           </p>
           <div className="mt-6">
             <a
@@ -605,13 +651,30 @@ export function Footer() {
             </Link>
           ))}
         </nav>
-        <div className="text-sm leading-7 text-mist">
-          <p>{studio.address}</p>
-          <p className="mt-3">{studio.hours}</p>
-          <a className="inline-link focus-ring" href={`tel:${studio.phone}`}>
-            {studio.phone}
-          </a>
-          <p className="mt-6 text-xs uppercase tracking-[0.22em]">
+        <div className="text-sm leading-7 text-mist space-y-6">
+          <div>
+            <h4 className="font-display text-xs uppercase tracking-[0.22em] text-[#f0eee8] mb-1">
+              Ahmedabad Branch
+            </h4>
+            <p className="text-mist">{branches[0].address}</p>
+            <p className="text-xs text-mist/60 mt-1">{branches[0].hours}</p>
+          </div>
+          <div>
+            <h4 className="font-display text-xs uppercase tracking-[0.22em] text-[#f0eee8] mb-1">
+              Gandhinagar Branch
+            </h4>
+            <p className="text-mist">{branches[1].address}</p>
+            <p className="text-xs text-mist/60 mt-1">{branches[1].hours}</p>
+          </div>
+          <div>
+            <h4 className="font-display text-xs uppercase tracking-[0.22em] text-[#f0eee8] mb-1">
+              Contact
+            </h4>
+            <a className="inline-link focus-ring" href={`tel:${branches[0].phone}`}>
+              {branches[0].phone}
+            </a>
+          </div>
+          <p className="mt-6 text-xs uppercase tracking-[0.22em] text-mist/50">
             © 2026 {studio.name}
           </p>
         </div>
